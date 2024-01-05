@@ -1,0 +1,95 @@
+
+import java.util.Scanner;
+
+public class Main {
+    static char currentPlayer = 'X';
+    static char[][] board = new char[3][3];
+    static public boolean gameWon = false;
+
+    public static void main(String[] args) {
+
+        inichializeBoard();
+        printBoard();
+
+        while (!gameWon) {
+            makeMove();
+            printBoard();
+            checkForWin();
+            changePlayer();
+        }
+        if (gameWon) {
+            if (currentPlayer == 'X')
+                System.out.println("Игрок O Победил");
+            else if (currentPlayer == 'O') {
+                System.out.println("Игрок X Победил");
+            }
+        }
+    }
+
+    public static void inichializeBoard() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                board[row][col] = ' ';
+            }
+        }
+    }
+
+    public static void printBoard() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                System.out.print(board[row][col]);
+                if (col < 2) {
+                    System.out.print(" | ");
+                }
+            }
+            System.out.println();
+            if (row < 2) {
+                System.out.println("_____________");
+            }
+        }
+    }
+
+    public static void makeMove() {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Ход игрока " + currentPlayer + " : ");
+        int row = in.nextInt();
+        int col = in.nextInt();
+        while (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') ;
+        board[row][col] = currentPlayer;
+    }
+
+    public static void checkForWin() {
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer
+                    || board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer
+                    || board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer
+                    || board[2][0] == currentPlayer && board[1][1] == currentPlayer && board[0][2] == currentPlayer) {
+                gameWon = true;
+
+            }
+        }
+        boolean isFul = true;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    isFul = false;
+                    break;
+                }
+            }
+        }
+        if (isFul == true)
+            gameWon = true;
+    }
+
+
+    public static void changePlayer() {
+        if (currentPlayer == 'X') {
+            currentPlayer = 'O';
+        } else {
+            currentPlayer = 'X';
+        }
+    }
+
+
+}
